@@ -4,9 +4,13 @@
       <% @posts.each do |post| %>
         <tr>
           <td>
-            <%= link_to "", "#", class: 'glyphicon glyphicon-chevron-up' %><br>
-            <%= link_to "", "#", class: 'glyphicon glyphicon-chevron-down' %>
+            <%= bootstrap_form_for [post,Vote.new] do |f| %>
+              <%= f.button "", value: 'up', class: 'btn btn-primary btn-xs glyphicon glyphicon-chevron-up' %>
+              <%= f.button "", value: 'down', class: 'btn btn-primary btn-xs glyphicon glyphicon-chevron-down' %>
+            <% end %>
+
           </td>
+          <td><%= post.votes.reduce(0){ |sum,v| sum + v.value} %></td>
           <td>
             <a href="<%= post.link %>"><%= post.title %></a>
           </td>
@@ -16,7 +20,7 @@
           <td>
           <!--% if @current_user && @current_user.id == post.user.id %-->
           <% if post.owned_by? @current_user %>
-            <%= link_to "", edit_post_path(post), class: 'glyphicon glyphicon-pencil' %>
+            <%= link_to "", edit_post_path(post), class: 'glyphicon glyphicon-pencil', :data => {toggle: 'modal', target: '#myModal'} %>
             <%= link_to "", post, method:'delete', class: 'glyphicon glyphicon-trash' %>
           <% end %>
           </td>
@@ -24,12 +28,25 @@
       <% end %>
     </tbody>
   </table>
-</div>
-<div class="col-sm-4">
-  <div class="advertisement">
-    <div class="text">
-      THIS IS AN<br>
-      ADVERTISEMENT
+  <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
   </div>
+</div>
 </div>

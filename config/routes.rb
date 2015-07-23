@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'static_pages/about'
+
   root 'posts#index'
 
   get 'signup' => 'users#new', as: :new_user
@@ -10,6 +12,16 @@ Rails.application.routes.draw do
   get 'logout' => 'sessions#destroy'
 
   # resources :posts, only:[:index,:new,:create]
-  resources :posts
+  resources :posts do
+    resources :votes, :only => [:create]
+    resources :comments
+  end
+
+  resources :users, :only => [:show] do
+    resources :votes, :only => [:create]
+  end
+
+  resources :profiles
+
 
 end

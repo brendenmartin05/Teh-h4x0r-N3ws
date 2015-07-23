@@ -15,6 +15,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    render layout: false
   end
 
   def create
@@ -29,6 +30,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    render layout: false
   end
 
   def update
